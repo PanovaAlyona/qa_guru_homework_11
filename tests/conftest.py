@@ -1,38 +1,49 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import pytest
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selene import Browser, Config
+from selene import browser
 
 from utils import attach
 
-@pytest.fixture(scope='function')
-def setup_browser(request):
+
+@pytest.fixture(scope='function', autouse=True)
+def setup_browser():
+    # Настройка capabilities для Selenoid
     options = Options()
     selenoid_capabilities = {
         "browserName": "chrome",
         "browserVersion": "127.0",
         "selenoid:options": {
-            "enableVNC": True,
-            "enableVideo": True
+            "enableVNC": True
+            #"enableVideo": True
         }
     }
     options.capabilities.update(selenoid_capabilities)
+
+    # Создаем драйвер для Selenoid
     driver = webdriver.Remote(
-        command_executor=f"https://user1:1234@selenoid.autotests.cloud/wd/hub",
+        command_executor="https://user1:1234@selenoid.autotests.cloud/wd/hub",
         options=options
     )
 
-    yield driver
+    # Настройка Selene с созданным драйвером
+    browser.config.driver = driver
+    #browser.config.base_url = "https://your-base-url.com"  # Укажите ваш base_url
+    browser.config.timeout = 10  # Настройте таймаут по необходимости
+    browser.config.window_width = 1920
+    browser.config.window_height = 1080
 
-    attach.add_screenshot(driver)
-    attach.add_logs(driver)
-    attach.add_html(driver)
-    #attach.add_video(driver)
+    yield
 
-    driver.quit()
+    # Прикрепление артефактов
+    attach.add_screenshot(browser)
+    attach.add_logs(browser)
+    attach.add_html(browser)
+    # attach.add_video(browser)  # Раскомментируйте если нужно
+
+    browser.quit()
