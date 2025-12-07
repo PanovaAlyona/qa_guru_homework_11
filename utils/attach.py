@@ -8,8 +8,20 @@ def add_screenshot(driver):
 
 # логи
 def add_logs(driver):
-    log = "".join(f'{text}\n' for text in driver.get_log(log_type='browser'))
-    allure.attach(log, 'browser_logs', AttachmentType.TEXT, '.log')
+    try:
+        log_text = "".join(f'{text}\n' for text in driver.execute("getLog", {'type': 'browser'})['value'])
+        allure.attach(
+            log_text,
+            name="Browser logs",
+            attachment_type=AttachmentType.TEXT,
+            extension=".log"
+        )
+    except Exception:
+        allure.attach(
+            "Browser logs are not available for this driver.",
+            name="Browser logs",
+            attachment_type=AttachmentType.TEXT
+        )
 
 # html-код страницы
 def add_html(driver):
