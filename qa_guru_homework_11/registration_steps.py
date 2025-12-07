@@ -1,9 +1,7 @@
 import os
-
 import allure
-from selene import browser, by, be, have, query
+from selene import by, be, have, query
 from selene.core.command import js
-
 from qa_guru_homework_11.user import User
 import calendar
 
@@ -79,7 +77,7 @@ class RegistrationSteps:
         ).click()
 
         # Отправляем форму
-        browser.element('#submit').click()
+        self.driver.element('#submit').click()
 
     @allure.step('Проверить корректность заполненных данных пользователя')
     def should_have_registered(self, user: User):
@@ -99,7 +97,7 @@ class RegistrationSteps:
         }
 
         # Получаем все строки таблицы
-        rows = browser.all('tbody tr')
+        rows = self.driver.all('tbody tr')
 
         for row in rows:
             # Получаем ячейки в строке

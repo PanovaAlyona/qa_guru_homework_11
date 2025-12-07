@@ -1,11 +1,6 @@
 import os
-import time
 from datetime import date
-
 import allure
-from selene import browser
-from selenium.webdriver.common.devtools.v141.emulation import set_user_agent_override
-
 from qa_guru_homework_11.registration_steps import RegistrationSteps
 from qa_guru_homework_11.user import User
 from utils import attach
@@ -30,7 +25,8 @@ def test_fill_submit_form(setup_browser):
         city_address='Panipat'
     )
 
-    registration_steps = RegistrationSteps(setup_browser)
+    browser = setup_browser
+    registration_steps = RegistrationSteps(browser)
 
     registration_steps.open()
     registration_steps.register(student)
