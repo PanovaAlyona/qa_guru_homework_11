@@ -8,11 +8,15 @@ from qa_guru_homework_11.user import User
 import calendar
 
 class RegistrationSteps:
+
+    def __init__(self, driver):
+        self.driver = driver
+
     @allure.step('Открыть форму регистрации')
     def open(self):
-        browser.open('https://demoqa.com/automation-practice-form')
+        self.driver.open('https://demoqa.com/automation-practice-form')
 
-        browser.driver.execute_script("""
+        self.driver.execute_script("""
                 // Удаляем рекламные баннеры
                 const banners = document.querySelectorAll('[id^="google_ads_iframe"], .ads, .ad, iframe');
                 banners.forEach(banner => banner.remove());
@@ -28,49 +32,49 @@ class RegistrationSteps:
                 });
             """)
 
-        browser.element(by.text('Practice Form')).should(be.visible)
+        self.driver.element(by.text('Practice Form')).should(be.visible)
 
     @allure.step('Заполнить данные пользователя')
     def register(self, user: User):
         # Заполняем основные данные
-        browser.element('#firstName').type(user.first_name)
-        browser.element('#lastName').type(user.last_name)
-        browser.element('#userEmail').type(user.email)
-        browser.element(by.text('Male')).click()
-        browser.element('#userNumber').type(user.mobile_number)
+        self.driver.element('#firstName').type(user.first_name)
+        self.driver.element('#lastName').type(user.last_name)
+        self.driver.element('#userEmail').type(user.email)
+        self.driver.element(by.text('Male')).click()
+        self.driver.element('#userNumber').type(user.mobile_number)
 
         # Заполняем дату рождения
-        browser.element('#dateOfBirthInput').click()
-        browser.element('.react-datepicker__month-select').type(calendar.month_name[user.date_of_birth.month])
-        browser.element('.react-datepicker__year-select').type(user.date_of_birth.year)
-        browser.element(f'.react-datepicker__day--0{user.date_of_birth.day}:not(.react-datepicker__day--outside-month)').click()
+        self.driver.element('#dateOfBirthInput').click()
+        self.driver.element('.react-datepicker__month-select').type(calendar.month_name[user.date_of_birth.month])
+        self.driver.element('.react-datepicker__year-select').type(user.date_of_birth.year)
+        self.driver.element(f'.react-datepicker__day--0{user.date_of_birth.day}:not(.react-datepicker__day--outside-month)').click()
 
         # Выбираем предмет
-        browser.element('#subjectsInput').type(user.subject)
-        browser.element('.subjects-auto-complete__menu').with_(timeout=5).should(be.visible)
-        browser.all('.subjects-auto-complete__option').first.click()
+        self.driver.element('#subjectsInput').type(user.subject)
+        self.driver.element('.subjects-auto-complete__menu').with_(timeout=5).should(be.visible)
+        self.driver.all('.subjects-auto-complete__option').first.click()
 
         # Выбираем хобби
-        browser.element(by.text(user.hobbies)).click()
+        self.driver.element(by.text(user.hobbies)).click()
 
         # Загружаем файл
-        browser.element('#uploadPicture').send_keys(user.picture)
+        self.driver.element('#uploadPicture').send_keys(user.picture)
 
         # Заполняем адрес
-        browser.element('#currentAddress').type(user.street_address)
-        browser.element('#submit').perform(js.scroll_into_view)
+        self.driver.element('#currentAddress').type(user.street_address)
+        self.driver.element('#submit').perform(js.scroll_into_view)
 
-        browser.element('#state').click()
-        browser.element('.css-26l3qy-menu').with_(timeout=5).should(be.visible)
+        self.driver.element('#state').click()
+        self.driver.element('.css-26l3qy-menu').with_(timeout=5).should(be.visible)
 
-        browser.element('.css-26l3qy-menu').element(
+        self.driver.element('.css-26l3qy-menu').element(
             by.text(user.state_address)
         ).click()
 
-        browser.element('#city').click()
-        browser.element('.css-26l3qy-menu').with_(timeout=5).should(be.visible)
+        self.driver.element('#city').click()
+        self.driver.element('.css-26l3qy-menu').with_(timeout=5).should(be.visible)
 
-        browser.element('.css-26l3qy-menu').element(
+        self.driver.element('.css-26l3qy-menu').element(
             by.text(user.city_address)
         ).click()
 
