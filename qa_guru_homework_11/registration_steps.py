@@ -12,7 +12,7 @@ class RegistrationSteps:
 
     @allure.step('Открыть форму регистрации')
     def open(self):
-        self.driver.open('https://demoqa.com/automation-practice-form')
+        self.driver.get('https://demoqa.com/automation-practice-form')
 
         self.driver.execute_script("""
                 // Удаляем рекламные баннеры
