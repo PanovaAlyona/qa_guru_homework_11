@@ -38,7 +38,7 @@ def setup_browser():
     browser.config.window_width = 1920
     browser.config.window_height = 1080
 
-    yield
+    yield browser
 
     # Прикрепление артефактов
     attach.add_screenshot(browser)
