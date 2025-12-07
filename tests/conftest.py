@@ -41,9 +41,9 @@ def setup_browser():
     yield browser
 
     # Прикрепление артефактов
-    attach.add_screenshot(browser)
-    attach.add_logs(browser)
-    attach.add_html(browser)
+    attach.add_screenshot(browser.driver)
+    attach.add_logs(browser.driver)
+    attach.add_html(browser.driver)
     # attach.add_video(browser)  # Раскомментируйте если нужно
 
     browser.quit()
