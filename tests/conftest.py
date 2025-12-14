@@ -39,6 +39,6 @@ def setup_browser():
     attach.add_screenshot(browser.driver)
     attach.add_logs(browser.driver)
     attach.add_html(browser.driver)
-    attach.add_video(browser.driver)
+    attach.add_video(browser)
 
     browser.quit()
