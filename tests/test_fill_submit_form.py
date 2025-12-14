@@ -3,7 +3,6 @@ from datetime import date
 import allure
 from qa_guru_homework_11.registration_steps import RegistrationSteps
 from qa_guru_homework_11.user import User
-from utils import attach
 
 
 @allure.title("Проверка регистрации пользователя")
@@ -31,7 +30,3 @@ def test_fill_submit_form(setup_browser):
     registration_steps.open()
     registration_steps.register(student)
     registration_steps.should_have_registered(student)
-
-    # attach.add_html(browser)
-    # attach.add_screenshot(browser)
-    # attach.add_logs(browser)

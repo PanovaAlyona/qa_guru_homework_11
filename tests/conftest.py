@@ -28,8 +28,7 @@ def setup_browser():
 
     # Настройка Selene с созданным драйвером
     browser.config.driver = driver
-    #browser.config.base_url = "https://your-base-url.com"  # Укажите ваш base_url
-    browser.config.timeout = 10  # Настройте таймаут по необходимости
+    browser.config.timeout = 10
     browser.config.window_width = 1920
     browser.config.window_height = 1080
 
