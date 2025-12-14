@@ -1,8 +1,3 @@
-import sys
-import os
-
-#sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -19,8 +14,8 @@ def setup_browser():
         "browserName": "chrome",
         "browserVersion": "127.0",
         "selenoid:options": {
-            "enableVNC": True
-            #"enableVideo": True
+            "enableVNC": True,
+            "enableVideo": True
         }
     }
     options.capabilities.update(selenoid_capabilities)
@@ -44,6 +39,6 @@ def setup_browser():
     attach.add_screenshot(browser.driver)
     attach.add_logs(browser.driver)
     attach.add_html(browser.driver)
-    # attach.add_video(browser)  # Раскомментируйте если нужно
+    attach.add_video(browser.driver)
 
     browser.quit()
